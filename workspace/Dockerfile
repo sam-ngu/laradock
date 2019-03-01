@@ -947,7 +947,17 @@ RUN set -xe; php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 #--------------------------------------------------------------------------
 #
 
+ARG PROJECT_NAME=default
+
+# RUN echo "0.0.0.0  ${PROJECT_NAME}.dev.local">>/etc/hosts
+RUN openssl dhparam -out /etc/ssl/private/dhparam.pem 2048
+RUN openssl genrsa -out "/etc/ssl/private/default.key" 2048
+RUN openssl req -new -key "/etc/ssl/private/default.key" -out "/etc/ssl/private/default.csr" -subj "/CN=default/O=default/C=UK"
+RUN openssl x509 -req -days 3650 -in "/etc/ssl/private/default.csr" -signkey "/etc/ssl/private/default.key" -out "/etc/ssl/private/default.crt"
+
+
 USER root
+
 
 # Clean up
 RUN apt-get clean && \
@@ -956,3 +966,4 @@ RUN apt-get clean && \
 
 # Set default work directory
 WORKDIR /var/www
+

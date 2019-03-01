@@ -4,16 +4,16 @@ LABEL maintainer="ahkui <ahkui@outlook.com>"
 
 USER root
 
-RUN apk add --no-cache build-base
+RUN apk add --no-cache build-base linux-headers
 
-RUN python -m pip --quiet --no-cache-dir install \
+RUN python -m pip --no-cache-dir install \
         ipyparallel \
         numpy \
-        pandas \
         pymongo \
         redis \
         requests \
         bs4
+RUN python -m pip --no-cache-dir install pandas
 
 RUN ipython profile create --parallel --profile=default
 
