@@ -967,7 +967,12 @@ RUN openssl dhparam -out /etc/ssl/private/dhparam.pem 2048
 RUN openssl genrsa -out "/etc/ssl/private/default.key" 2048
 RUN openssl req -new -key "/etc/ssl/private/default.key" -out "/etc/ssl/private/default.csr" -subj "/CN=default/O=default/C=UK"
 RUN openssl x509 -req -days 3650 -in "/etc/ssl/private/default.csr" -signkey "/etc/ssl/private/default.key" -out "/etc/ssl/private/default.crt"
+RUN apt-get install -y netcat
+RUN apt-get install telnet
+RUN apt-get install -y net-tools
 
+# this adds host ip to host file
+RUN ip -4 route list match 0/0 | awk '{print $3 "host.docker.internal"}' >> /etc/hosts
 
 USER root
 

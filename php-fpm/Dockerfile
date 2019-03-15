@@ -148,7 +148,7 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
     pecl install xdebug-2.5.5; \
   else \
-    pecl install xdebug; \
+    pecl install xdebug-2.6.1; \
   fi && \
   docker-php-ext-enable xdebug \
 ;fi
@@ -643,6 +643,16 @@ COPY ./laravel.ini /usr/local/etc/php/conf.d
 COPY ./xlaravel.pool.conf /usr/local/etc/php-fpm.d/
 
 USER root
+
+RUN apt-get install -y net-tools
+# install ip
+RUN apt-get install -y iproute
+
+# install ping
+RUN apt-get install -y iputils-ping
+
+# this adds host ip to host file
+RUN ip -4 route list match 0/0 | awk '{print $3 "host.docker.internal"}' >> /etc/hosts
 
 # Clean up
 RUN apt-get clean && \
