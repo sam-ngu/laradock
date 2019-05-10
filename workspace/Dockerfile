@@ -971,6 +971,14 @@ RUN apt-get install -y netcat
 RUN apt-get install telnet
 RUN apt-get install -y net-tools
 
+# install chrome for laravel dusk
+RUN apt-get update
+RUN apt-get install -y wget
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/google-chrome.list
+RUN apt-get update
+RUN apt-get install -y google-chrome-stable
+
 # this adds host ip to host file
 RUN ip -4 route list match 0/0 | awk '{print $3 "host.docker.internal"}' >> /etc/hosts
 
