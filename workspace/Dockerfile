@@ -15,7 +15,7 @@
 ARG LARADOCK_PHP_VERSION
 
 # FROM laradock/workspace:2.2-${LARADOCK_PHP_VERSION}
-FROM letsdockerize/laradock-workspace:2.3-${LARADOCK_PHP_VERSION}
+FROM letsdockerize/laradock-workspace:2.4-${LARADOCK_PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
@@ -447,6 +447,31 @@ RUN if [ ${INSTALL_LIBPNG} = true ]; then \
 ;fi
 
 ###########################################################################
+# Inotify EXTENSION:
+###########################################################################
+
+ARG INSTALL_INOTIFY=false
+
+RUN if [ ${INSTALL_INOTIFY} = true ]; then \
+    pecl -q install inotify && \
+    echo "extension=inotify.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/inotify.ini && \
+    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/inotify.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-inotify.ini \
+;fi
+
+###########################################################################
+# fswatch
+###########################################################################
+
+ARG INSTALL_FSWATCH=false
+
+RUN if [ ${INSTALL_FSWATCH} = true ]; then \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 47FE03C1 \
+    && add-apt-repository -y ppa:hadret/fswatch \
+    || apt-get update -yqq \
+    && apt-get -y install fswatch \
+;fi
+
+###########################################################################
 # IonCube Loader
 ###########################################################################
 
@@ -847,6 +872,23 @@ RUN if [ ${INSTALL_PYTHON} = true ]; then \
 ;fi
 
 ###########################################################################
+# POWERLINE:
+###########################################################################
+
+USER root
+ARG INSTALL_POWERLINE=false
+
+RUN if [ ${INSTALL_POWERLINE} = true ]; then \
+    if [ ${INSTALL_PYTHON} = true ]; then \
+    python -m pip install --upgrade powerline-status && \
+    echo "" >> /etc/bash.bashrc && \
+    echo ". /usr/local/lib/python2.7/dist-packages/powerline/bindings/bash/powerline.sh" >> /etc/bash.bashrc \
+  ;fi \
+;fi
+
+USER laradock
+
+###########################################################################
 # ImageMagick:
 ###########################################################################
 
@@ -947,6 +989,31 @@ RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
     apt-get update -yqq && \
     apt-get -y install mysql-client \
 ;fi
+
+###########################################################################
+# FFMpeg:
+###########################################################################
+
+USER root
+
+ARG INSTALL_FFMPEG=false
+
+RUN if [ ${INSTALL_FFMPEG} = true ]; then \
+  apt-get -y install ffmpeg \
+;fi
+
+###########################################################################
+# GNU Parallel:
+###########################################################################
+
+USER root
+
+ARG INSTALL_GNU_PARALLEL=false
+
+RUN if [ ${INSTALL_GNU_PARALLEL} = true ]; then \
+  apt-get -y install parallel \
+;fi
+
 
 ###########################################################################
 # Check PHP version:

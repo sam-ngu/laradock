@@ -25,4 +25,4 @@ RUN openssl req -new -key "/etc/ssl/private/default.key" -out "/etc/ssl/private/
 RUN openssl x509 -req -days 3650 -in "/etc/ssl/private/default.csr" -signkey "/etc/ssl/private/default.key" -out "/etc/ssl/private/default.crt"
 
 EXPOSE 3000
-CMD [ "npm", "start" ]
+CMD [ "npm", "start", "--force" ]
