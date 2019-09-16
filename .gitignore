@@ -5,6 +5,9 @@
 /.project
 .docker-sync
 /jenkins/jenkins_home
+up.sh
+stop.sh
+
 
 /logstash/pipeline/*.conf
 /logstash/config/pipelines.yml
@@ -12,5 +15,7 @@
 /nginx/ssl/*.crt
 /nginx/ssl/*.key
 /nginx/ssl/*.csr
+
+
 
 .DS_Store

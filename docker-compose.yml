@@ -134,6 +134,7 @@ services:
       networks:
         - frontend
         - backend
+      working_dir: ${APP_CODE_PATH_CONTAINER}
       links:
         - docker-in-docker
 
