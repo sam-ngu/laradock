@@ -91,6 +91,8 @@ ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
 #
 # -- Your awesome modifications go here -- #
 
+# install phpredis
+RUN pecl install redis && docker-php-ext-enable redis
 #
 #--------------------------------------------------------------------------
 # Check PHP version
