@@ -756,7 +756,7 @@ USER root
 
 RUN apt-get install -y net-tools
 # install ip
-RUN apt-get install -y iproute
+RUN apt-get install -y iproute2
 
 # install ping
 RUN apt-get install -y iputils-ping
