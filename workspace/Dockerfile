@@ -1123,13 +1123,28 @@ RUN apt-get install -y netcat
 RUN apt-get install telnet
 RUN apt-get install -y net-tools
 
-# install chrome for laravel dusk
+## install chrome for laravel dusk
+#RUN apt-get update
+#RUN apt-get install -y wget
+#RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+#RUN echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/google-chrome.list
+#RUN apt-get update
+#RUN apt-get install -y google-chrome-stable
+
+# installing puppeteer for pdf testing and sitemap generation
 RUN apt-get update
-RUN apt-get install -y wget
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-RUN echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/google-chrome.list
-RUN apt-get update
-RUN apt-get install -y google-chrome-stable
+
+RUN apt-get install -y nodejs gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
+RUN npm install --global --unsafe-perm puppeteer
+
+# using symlink to match php fpm chromium path
+RUN version=$(node --version) && \
+   chmod -R o+rx /home/laradock/.nvm/versions/node/$version/lib/node_modules/puppeteer/.local-chromium && \
+   mkdir -p /usr/lib/node_modules/puppeteer && \
+   ln -s  /home/laradock/.nvm/versions/node/$version/lib/node_modules/puppeteer/.local-chromium /usr/lib/node_modules/puppeteer/.local-chromium
+
+# install envoy
+RUN composer global require laravel/envoy
 
 # this adds host ip to host file
 RUN ip -4 route list match 0/0 | awk '{print $3 "host.docker.internal"}' >> /etc/hosts
