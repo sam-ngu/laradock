@@ -16,8 +16,9 @@
 #     mysql -u root -p < /docker-entrypoint-initdb.d/createdb.sql
 #
 
-#CREATE DATABASE IF NOT EXISTS `dev_db_1` COLLATE 'utf8_general_ci' ;
+#CREATE DATABASE IF NOT EXISTS `dev_db_1` COLLATE 'utf8_unicode_ci' ;
 #GRANT ALL ON `dev_db_1`.* TO 'default'@'%' ;
+ALTER USER 'default'@'default' IDENTIFIED WITH mysql_native_password BY 'secret';
 
 #CREATE DATABASE IF NOT EXISTS `dev_db_2` COLLATE 'utf8_general_ci' ;
 #GRANT ALL ON `dev_db_2`.* TO 'default'@'%' ;
