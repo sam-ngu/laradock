@@ -39,7 +39,7 @@ COMPOSE_PROJECT_NAME=laradock
 
 # Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM).
 # Accepted values: 7.4 - 7.3 - 7.2 - 7.1 - 7.0 - 5.6
-PHP_VERSION=7.3
+PHP_VERSION=7.4
 
 ### Phalcon Version ###########################################
 
@@ -83,7 +83,7 @@ DOCKER_SYNC_STRATEGY=native_osx
 
 # If you want to use "Oh My ZSH!" with Laravel autocomplete plugin, set SHELL_OH_MY_ZSH to true.
 
-SHELL_OH_MY_ZSH=false
+SHELL_OH_MY_ZSH=true
 
 ###########################################################
 ################ Containers Customization #################
