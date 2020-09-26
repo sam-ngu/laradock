@@ -159,6 +159,7 @@ services:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - docker-in-docker:/certs/client
         - ./php-worker/supervisord.d:/etc/supervisord.d
+        - ${APP_CODE_PATH_HOST}../packages/:${APP_CODE_PATH_CONTAINER}/../packages
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
         - "${PROJECT_NAME}.dev.local:0.0.0.0"
@@ -255,6 +256,7 @@ services:
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - ${APP_CODE_PATH_HOST}../packages/:${APP_CODE_PATH_CONTAINER}/../packages
         - docker-in-docker:/certs/client
       expose:
         - "9000"
