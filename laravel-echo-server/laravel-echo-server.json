@@ -1,5 +1,5 @@
 {
-	"authHost": "https://laravel-boilerplate.dev.local",
+	"authHost": "https://laravel-startup.dev.local",
 	"authEndpoint": "/broadcasting/auth",
 	"clients": [],
 	"database": "redis",

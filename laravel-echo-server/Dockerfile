@@ -24,7 +24,7 @@ RUN apk add --update \
 RUN npm install
 
 # Bundle app source
-COPY laravel-echo-server.json /usr/src/app/laravel-echo-server.json
+#COPY laravel-echo-server.json /usr/src/app/laravel-echo-server.json
 
 RUN apk add openssl
 RUN openssl dhparam -out /etc/ssl/private/dhparam.pem 2048
